@@ -25,9 +25,21 @@ gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 var program = initShaders( gl, "vertex-shader", "fragment-shader" );
 gl.useProgram( program );
 
-// Manufacture the genie points in the array vertices by calling function
+// points for the octagon
 
-octagon();
+vertices = [
+  vec2(0,0),
+  vec2(-.4,.99),
+  vec2(.4,.99),
+  vec2(.99,.4),
+  vec2(.99,-.4),
+  vec2(.4,-.99),
+  vec2(-.4,-.99),
+  vec2(-.99,-.4),
+  vec2(-.99,.4),
+  vec2(-.4,.99)
+];
+
 // Load the data into the GPU
 
 var bufferId = gl.createBuffer();
@@ -53,21 +65,6 @@ gl.vertexAttribPointer(
 );
 gl.enableVertexAttribArray( vPosition );
 render();
-};
-
-function octagon() {
-  vertices = [
-    vec2(0,0),
-    vec2(-.4,.99),
-    vec2(.4,.99),
-    vec2(.99,.4),
-    vec2(.99,-.4),
-    vec2(.4,-.99),
-    vec2(-.4,-.99),
-    vec2(-.99,-.4),
-    vec2(-.99,.4),
-    vec2(-.4,.99)
-  ];
 };
 
 function render() {

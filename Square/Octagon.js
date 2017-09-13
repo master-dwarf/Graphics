@@ -1,4 +1,4 @@
-// octagon.js
+// the-genie-times-two.js
 
 // Demonstrate viewports
 
@@ -6,6 +6,7 @@
 var gl;
 var points;
 var vertices = [];
+var size = 0.25;
 var canvas;
 
 window.onload = function init(){
@@ -27,7 +28,7 @@ gl.useProgram( program );
 
 // Manufacture the genie points in the array vertices by calling function
 
-octagon();
+genie(size);
 // Load the data into the GPU
 
 var bufferId = gl.createBuffer();
@@ -55,7 +56,7 @@ gl.enableVertexAttribArray( vPosition );
 render();
 };
 
-function octagon() {
+function genie(size) {
   vertices = [
     vec2(0,0),
     vec2(-.4,.99),
@@ -69,7 +70,8 @@ function octagon() {
     vec2(-.4,.99)
   ];
 };
-
+gl.viewport( canvas.width/2, canvas.height/2, canvas.width/2, canvas.height/2 );
+gl.drawArrays( gl.TRIANGLE_FAN, 0, vertices.length );
 function render() {
   gl.clear( gl.COLOR_BUFFER_BIT );
   for(var y=0;y<4;y++){

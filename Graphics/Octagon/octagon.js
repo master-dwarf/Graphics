@@ -1,8 +1,5 @@
 // octagon.js
 
-// Demonstrate viewports
-
-
 var gl;
 var points;
 var vertices = [];

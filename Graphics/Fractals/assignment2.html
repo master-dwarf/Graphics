@@ -1,44 +1,44 @@
-<!--assignment2.html-->
 <!DOCTYPE html>
 <html>
 
 
 <script id="vertex-shader" type="x-shader/x-vertex">
 
-attribute vec4 vPosition;
+attribute vec4 sPosition;
+attribute vec4 gPosition;
+uniform float tween;
 uniform mat4 projection;
 
-  void main()
-  {
-    gl_Position = projection * vec4(vPosition.x, vPosition.y, 0.0, 1.0);
-    gl_PointSize = 2.0;
-  }
-
+void main()
+{
+  gl_Position = projection * (1.0 - tween) * sPosition + tween * gPosition;
+  gl_PointSize = 2.0;
+}
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
 
-  precision mediump float;
+precision mediump float;
 
-  void main()
-  {
+void main()
+{
     gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );
-  }
-
+}
 </script>
 
-<!--Include A/S WebGL support libraries-->
+<!-- The A/S WebGL support libraries-->
 <script type="text/javascript" src="../Common/webgl-utils.js"></script>
 <script type="text/javascript" src="../Common/initShaders.js"></script>
 <script type="text/javascript" src="../Common/MV.js"></script>
 <script type="text/javascript" src="../Common/webgl-debug.js"></script>
-<script type="text/javascript" src= "frac1.js"></script>
-<script type="text/javascript" src= "frac2.js"></script>
+<script type="text/javascript" src="dragon.js"></script>
+<script type="text/javascript" src="galaxy.js"></script>
 <script type="text/javascript" src="assignment2.js"></script>
 
-<body>
-  <canvas id="gl-canvas" width="800" height="800">>
-    Oops ... your browser doesn't support the HTML5 canvas element
-  </canvas>
+<body style="background-color:black">
+<canvas id="gl-canvas" width="1200" height="600">
+<!--Oops ... your browser doesn't support the HTML5 canvas element-->
+</canvas>
+<div id="caption-for-the-goal" style="color:white">Galaxy and Dragon</div>
 </body>
 </html>

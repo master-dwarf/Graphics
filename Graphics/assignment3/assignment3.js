@@ -20,7 +20,7 @@ var eye;			// Established by radius, theta, phi as we move
 const at = vec3(0.0, 0.0, 0.0);
 const up = vec3(0.0, 1.0, 0.0);
 
-////////////////// Object 1 vertex information //////////////////  
+////////////////// Object 1 vertex information //////////////////
 
 // numVerticesObj1, pointsArray1, vertices1, coordsForObj1 are all
 // used to generate the vertex information for "Object 1".  In the
@@ -40,18 +40,18 @@ var vertices1 = [
     vec4(-0.5, -0.5, 0.5, 1.0),
     vec4(-0.5,  0.5, 0.5, 1.0),
     vec4(0.5,  0.5, 0.5, 1.0),
-    vec4( 0.5, -0.5, 0.5, 1.0) 
+    vec4( 0.5, -0.5, 0.5, 1.0)
 ];
 
 function coordsForObj1()
 {
     function quad(a, b, c, d) {
-	pointsArray1.push(vertices1[a]); 
-	pointsArray1.push(vertices1[b]); 
-	pointsArray1.push(vertices1[c]); 
-	pointsArray1.push(vertices1[a]); 
-	pointsArray1.push(vertices1[c]); 
-	pointsArray1.push(vertices1[d]); 
+	pointsArray1.push(vertices1[a]);
+	pointsArray1.push(vertices1[b]);
+	pointsArray1.push(vertices1[c]);
+	pointsArray1.push(vertices1[a]);
+	pointsArray1.push(vertices1[c]);
+	pointsArray1.push(vertices1[d]);
     };
 
     quad( 1, 0, 3, 2 );
@@ -67,7 +67,7 @@ function coordsForObj1()
 window.onload = function init() {
 
     canvas = document.getElementById( "gl-canvas" );
-    
+
     //    gl = WebGLUtils.setupWebGL( canvas );
     gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
     if ( !gl ) { alert( "WebGL isn't available" ); }
@@ -76,25 +76,25 @@ window.onload = function init() {
     aspect =  canvas.width/canvas.height;
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
     gl.enable(gl.DEPTH_TEST);
-    
+
 
     //
     //  Load shaders and initialize attribute buffers
     //
     program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
-    
+
     coordsForObj1();		// This will probably change once you finalize Object 1
 
     var vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
 //    gl.bufferData( gl.ARRAY_BUFFER, flatten(pointsArray1), gl.STATIC_DRAW );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pointsArray1.concat(buckyBall)), gl.STATIC_DRAW );
-    
+
     var vPosition = gl.getAttribLocation( program, "vPosition" );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
-    
+
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
 
@@ -108,15 +108,15 @@ window.onload = function init() {
     document.getElementById("Button6").onclick = function(){theta -= rotation_by_5_deg;};
     document.getElementById("Button7").onclick = function(){phi += rotation_by_5_deg;};
     document.getElementById("Button8").onclick = function(){phi -= rotation_by_5_deg;};
-    
-    render(); 
+
+    render();
 };
 
 
 var render = function(){
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    
-    eye = vec3(radius*Math.sin(theta)*Math.cos(phi), 
+
+    eye = vec3(radius*Math.sin(theta)*Math.cos(phi),
                radius*Math.sin(theta)*Math.sin(phi), radius*Math.cos(theta));
 
     // Object 1
@@ -127,7 +127,7 @@ var render = function(){
 
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
-    
+
     gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
 		  flatten(vec4(1.0, 0.0, 0.0, 1.0)));
     gl.drawArrays( gl.TRIANGLES, 0, numVerticesObj1 );
@@ -141,10 +141,14 @@ var render = function(){
 
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
-    
+
     gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
-		  flatten(vec4(0.0, .0, 1.0, 1.0)));
+		  flatten(vec4(0.0, 0.0, 1.0, 1.0)));
     gl.drawArrays( gl.TRIANGLES, numVerticesObj1, buckyBall.length );
+
+    gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
+		  flatten(vec4(0.0, 0.0, 0.0, 0.0)));
+    gl.drawArrays(gl.LINE_LOOP,numVerticesObj1,buckyBall.length );
 
     requestAnimFrame(render);
 };

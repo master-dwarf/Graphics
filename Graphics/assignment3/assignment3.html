@@ -14,6 +14,17 @@
 <button id = "Button8">Decrease phi</button>
 <p> </p>
 
+<p><button onclick="myCanvas()">Something Cool</button></p>
+
+<script>
+function myCanvas() {
+    var c = document.getElementById("gl-canvas");
+    var ctx = c.getContext("2d");
+    var img = document.getElementById("bkgrnd");
+    ctx.drawImage(img,10,10);
+}
+</script>
+
 
 <script id="vertex-shader" type="x-shader/x-vertex">
 
@@ -22,10 +33,10 @@ attribute  vec4 vPosition;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
-void main() 
+void main()
 {
     gl_Position = projectionMatrix*modelViewMatrix*vPosition;
-} 
+}
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">

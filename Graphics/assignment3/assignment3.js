@@ -63,6 +63,46 @@ function coordsForObj1()
 }
 
 ///////// End of vertex information for Object 1  ////////
+                      //buckyball//
+
+var pointsArray2 = [];
+
+function getBucky(){
+  var vert = 0;
+  for(var i=0;i<=240;i++){//Hexagons
+    if(vert==0){
+      pointsArray2.push(buckyBall[i]);
+      vert++;
+    }
+    else if(vert==1 | vert==2 | vert==5 | vert == 8 | vert == 10){
+      pointsArray2.push(buckyBall[i]);
+      pointsArray2.push(buckyBall[i]);
+      vert++;
+    }
+    else if(vert==11){
+      pointsArray2.push(buckyBall[i-vert]);
+      vert = 0;
+    }
+    else{
+      vert++;
+    }
+  }
+  vert = 0;
+  for(var p=241;p<buckyBall.length-1;p++){
+    if(vert == 0 | vert == 1 | vert == 2 | vert == 5 | vert == 7){
+      pointsArray2.push(buckyBall[i]);
+      vert++;
+    }
+    else if(vert==9){
+      pointsArray2.push(buckyBall[i-vert]);
+      vert = 0;
+    }
+    else{
+      vert++;
+    }
+  }
+}
+/////////////////////////////////////////////////////////
 
 window.onload = function init() {
 
@@ -77,7 +117,9 @@ window.onload = function init() {
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
     gl.enable(gl.DEPTH_TEST);
 
-
+    gl.depthFunc(gl.LEQUAL)
+    gl.enable(gl.POLYGON_OFFSET_FILL);
+    gl.polygonOffset(1.0,5.0);
     //
     //  Load shaders and initialize attribute buffers
     //
@@ -85,6 +127,7 @@ window.onload = function init() {
     gl.useProgram( program );
 
     coordsForObj1();		// This will probably change once you finalize Object 1
+    getBucky();
 
     var vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
@@ -128,9 +171,13 @@ var render = function(){
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
 
-    gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
-		  flatten(vec4(1.0, 0.0, 0.0, 1.0)));
-    gl.drawArrays( gl.TRIANGLES, 0, numVerticesObj1 );
+    // gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
+		//   flatten(vec4(1.0, 0.0, 0.0, 1.0)));
+    // gl.drawArrays( gl.TRIANGLES, 0, numVerticesObj1 );
+    //
+    // gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
+		//   flatten(vec4(0.0, 0.0, 0.0, 0.0)));
+    // gl.drawArrays( gl.LINES, 0, numVerticesObj1 );
 
 
     // The BuckyBall
@@ -144,11 +191,11 @@ var render = function(){
 
     gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
 		  flatten(vec4(0.0, 0.0, 1.0, 1.0)));
-    gl.drawArrays( gl.TRIANGLES, numVerticesObj1, buckyBall.length );
+    gl.drawArrays( gl.TRIANGLES, numVerticesObj1, buckyBall.length);
 
     gl.uniform4fv(gl.getUniformLocation(program, "fColor"),
 		  flatten(vec4(0.0, 0.0, 0.0, 0.0)));
-    gl.drawArrays(gl.LINE_LOOP,numVerticesObj1,buckyBall.length );
+    gl.drawArrays(gl.LINE_LOOP,0,pointsArray2.length );
 
     requestAnimFrame(render);
 };

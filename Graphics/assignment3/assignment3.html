@@ -14,20 +14,7 @@
 <button id = "Button8">Decrease phi</button>
 <p> </p>
 
-<p><button onclick="myCanvas()">Something Cool</button></p>
-
-<script>
-function myCanvas() {
-    var c = document.getElementById("gl-canvas");
-    var ctx = c.getContext("2d");
-    var img = document.getElementById("bkgrnd");
-    ctx.drawImage(img,10,10);
-}
-</script>
-
-
-<script id="vertex-shader" type="x-shader/x-vertex">
-
+<script id="vertex-shader" type="x-shader/x-fragment">
 attribute  vec4 vPosition;
 
 uniform mat4 modelViewMatrix;
@@ -63,6 +50,16 @@ main()
 <canvas id="gl-canvas" width="800" height="500">
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
+
+<audio id="audio" src="https://github.com/master-dwarf/Graphics/blob/master/Graphics/assignment3/Shine.mp3" loop></audio>
+<script>
+  function music(){
+       var music = document.getElementById("audio");
+       music.play();
+  }
+</script>
+<input type="button" value="PLAY"  onclick="music()">
+
 
 </body>
 </html>

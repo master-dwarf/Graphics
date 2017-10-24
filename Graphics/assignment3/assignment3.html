@@ -12,7 +12,10 @@
 <button id = "Button6">Decrease theta</button>
 <button id = "Button7">Increase phi</button>
 <button id = "Button8">Decrease phi</button>
+<input type="button" value="Something Cool"  onclick="music()">
+<button id="master">Warning Flashing Colors</button>
 <p> </p>
+
 
 <script id="vertex-shader" type="x-shader/x-fragment">
 attribute  vec4 vPosition;
@@ -51,14 +54,34 @@ main()
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
 
-<audio id="audio" src="https://github.com/master-dwarf/Graphics/blob/master/Graphics/assignment3/Shine.mp3" loop></audio>
+<audio id="song1" src="DaysGoBy.mp3" loop></audio>
+<audio id="song2" src="Shine.mp3" loop></audio>
 <script>
+var pans = true;
+var q = 0;
+var audio;
+
   function music(){
-       var music = document.getElementById("audio");
-       music.play();
+    if(pans){
+      if(q%2==0){
+       audio = document.getElementById("song1");
+       audio.play();
+       pans = false;
+       q+=1;
+     }
+     else {
+       audio = document.getElementById("song2");
+       audio.play();
+       pans = false;
+       q-=1;
+     }
+    }
+    else {
+      audio.pause();
+      pans = true;
+    }
   }
 </script>
-<input type="button" value="PLAY"  onclick="music()">
 
 
 </body>

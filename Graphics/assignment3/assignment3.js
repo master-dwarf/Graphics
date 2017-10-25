@@ -226,9 +226,9 @@ var render = function(){
     }
 
 
-    modelViewMatrix = mult(modelViewMatrix, translate(Math.tan(transX),Math.cos(transY),0.0));
+    modelViewMatrix = mult(modelViewMatrix, translate(Math.tan(transX),Math.abs(Math.cos(transY)),0.0));
     // modelViewMatrix = mult(modelViewMatrix, translate(1.75,0.0,0.0));
-    modelViewMatrix = mult(modelViewMatrix, rotateY(rotY));
+    modelViewMatrix = mult(modelViewMatrix, rotateY(-rotY));
     modelViewMatrix = mult(modelViewMatrix, scalem(0.03,0.03,0.03));
     projectionMatrix = perspective(fovy, aspect, near, far);
 

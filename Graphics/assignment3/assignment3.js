@@ -197,7 +197,8 @@ var render = function(){
     // Object 1
     modelViewMatrix = lookAt(eye, at , up);
     modelViewMatrix = mult(modelViewMatrix, translate(-1.5,0.0,0.0));
-    modelViewMatrix = mult(modelViewMatrix, scalem(0.5,0.5,0.5));
+    modelViewMatrix = mult(modelViewMatrix, rotateY(90));
+    modelViewMatrix = mult(modelViewMatrix, scalem(1.0,1.0,1.0));
     projectionMatrix = perspective(fovy, aspect, near, far);
 
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
@@ -214,22 +215,15 @@ var render = function(){
     // The BuckyBall
     modelViewMatrix = lookAt(eye, at , up);
     rotY += 2.0;
-    if(Math.cos(transY)==0){
-      transY = 0.0;
-    }
-    if(Math.sin(transX)==1){
-      transX = 1;
-    }
-    else{
-      transY+=0.05;
-      transX-=0.01;
-    }
+    transY+=0.01;
+    transX-=0.01;
 
-
-    modelViewMatrix = mult(modelViewMatrix, translate(Math.tan(transX),Math.abs(Math.cos(transY)),0.0));
-    // modelViewMatrix = mult(modelViewMatrix, translate(1.75,0.0,0.0));
+    modelViewMatrix = mult(modelViewMatrix, translate((Math.tan(transX)),-Math.abs(2 * Math.cos(transY)),0.0));
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0,1.0,0.0));
     modelViewMatrix = mult(modelViewMatrix, rotateY(-rotY));
-    modelViewMatrix = mult(modelViewMatrix, scalem(0.03,0.03,0.03));
+    modelViewMatrix = mult(modelViewMatrix, rotateX(rotY));
+    modelViewMatrix = mult(modelViewMatrix, rotateZ(-rotY));
+    modelViewMatrix = mult(modelViewMatrix, scalem(0.02,0.02,0.02));
     projectionMatrix = perspective(fovy, aspect, near, far);
 
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
